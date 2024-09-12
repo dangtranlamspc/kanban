@@ -1,6 +1,7 @@
 import { Button, Card, Checkbox, Form, Input, Typography } from 'antd'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import SocialLogin from './components/SocialLogin'
 
 const {Title, Paragraph} = Typography
 
@@ -76,6 +77,8 @@ const Login = () => {
             Login
           </Button>
         </div>
+        <SocialLogin/>
+        <div className='mt-4 text-center' ></div>
       </Card>
     </div>
   )
