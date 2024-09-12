@@ -1,9 +1,9 @@
-import { Button, Card, Checkbox, Form, Input, Typography } from 'antd'
+import { Button, Card, Checkbox, Form, Input, Space, Typography } from 'antd'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import SocialLogin from './components/SocialLogin'
 
-const {Title, Paragraph} = Typography
+const {Title, Paragraph, Text} = Typography
 
 const Login = () => {
 
@@ -17,9 +17,14 @@ const Login = () => {
 
   }
   return (
-    <div>
-      <Card>
+    <>
+      <Card style={{width : '50%'}}>
         <div className='text-center'>
+          <img
+            className='mb-3'
+            src={'https://firebasestorage.googleapis.com/v0/b/kanban-2fee4.appspot.com/o/kanbanlogo.png?alt=media&token=8bf7e583-b672-4511-b657-07126e4ad0aa'}
+            style={{width:48, height :48}}
+          />
           <Title level={2}>Log in to account</Title>
           <Paragraph type='secondary'>
             Welcome back! Please enter your details.
@@ -32,7 +37,7 @@ const Login = () => {
           disabled={isLoading}
           size='large'
         >
-          <Form.Item 
+          <Form.Item
             name={'email'} 
             label='Email'
             rules={[
@@ -42,7 +47,7 @@ const Login = () => {
               }
             ]}
           >
-            <Input allowClear maxLength={100} type='email' />
+            <Input placeholder='Enter your email' allowClear maxLength={100} type='email' />
           </Form.Item>
           <Form.Item 
             name={'password'} 
@@ -54,7 +59,7 @@ const Login = () => {
               }
             ]}
           >
-            <Input.Password maxLength={100} type='password' />
+            <Input.Password placeholder='Enter your password' maxLength={100} type='password' />
           </Form.Item>
         </Form>
         <div className="row">
@@ -65,7 +70,7 @@ const Login = () => {
             <Link to={'/'} >Forgot Password ?</Link>
           </div>
         </div>
-        <div className='mt-4'>
+        <div className='mt-4 mb-4'>
           <Button
             onClick={() => form.submit()}
             type='primary' 
@@ -77,10 +82,15 @@ const Login = () => {
             Login
           </Button>
         </div>
-        <SocialLogin/>
-        <div className='mt-4 text-center' ></div>
+          <SocialLogin/>
+        <div className='mt-4 text-center'>
+          <Space>
+            <Text type='secondary'>Don't have an account ?</Text>
+            <Link to={'/sign-up'}>SignUp</Link>
+          </Space>
+        </div>
       </Card>
-    </div>
+    </>
   )
 }
 
