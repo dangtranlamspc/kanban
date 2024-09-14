@@ -15,12 +15,15 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async  (values : {email : string; password : string}) => {
+    setIsLoading(true)
     console.log(values)
     try {
       const res = await handleAPI('auth/register', values, 'post');
       console.log(res);
     } catch (error) {
       console.log(error)
+    }finally{
+      setIsLoading(false)
     }
   }
   return (
@@ -50,11 +53,11 @@ const Login = () => {
             rules={[
               {
                 required : true,
-                message : 'Please enter your email ! '
+                message : 'Vui lòng nhập địa chỉ email ! '
               }
             ]}
           >
-            <Input placeholder='Enter your email' allowClear maxLength={100} type='email' />
+            <Input placeholder='Hãy nhập email' allowClear maxLength={100} type='email' />
           </Form.Item>
           <Form.Item 
             name={'password'} 
@@ -62,19 +65,19 @@ const Login = () => {
             rules={[
               {
                 required : true,
-                message : 'Please enter your password ! '
+                message : 'Vui lòng nhập mật khẩu ! '
               }
             ]}
           >
-            <Input.Password placeholder='Enter your password' maxLength={100} type='password' />
+            <Input.Password placeholder='Nhập mật khẩu' maxLength={100} type='password' />
           </Form.Item>
         </Form>
         <div className="row">
           <div className="col">
-            <Checkbox value={isRemember} onChange={(val) => setIsRemember(val.target.checked)}>Remember for 30 days</Checkbox>
+            <Checkbox value={isRemember} onChange={(val) => setIsRemember(val.target.checked)}>Ghi nhớ mật khẩu</Checkbox>
           </div>
           <div className="col text-right">
-            <Link to={'/'} >Forgot Password ?</Link>
+            <Link to={'/'} >Quên mật khẩu ?</Link>
           </div>
         </div>
         <div className='mt-4 mb-4'>
@@ -86,14 +89,14 @@ const Login = () => {
             }} 
             size='large'
           >
-            Login
+            ĐĂNG NHẬP
           </Button>
         </div>
           <SocialLogin/>
         <div className='mt-4 text-center'>
           <Space>
-            <Text type='secondary'>Don't have an account ?</Text>
-            <Link to={'/sign-up'}>SignUp</Link>
+            <Text type='secondary'>Bạn không có tài khoản ?</Text>
+            <Link to={'/sign-up'}>Tạo tài khoản</Link>
           </Space>
         </div>
       </Card>

@@ -1,7 +1,8 @@
-import { Button, Card, Checkbox, Form, Input, Space, Typography } from 'antd';
+import { Alert, Button, Card, Checkbox, Form, Input, message, Space, Typography } from 'antd';
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import SocialLogin from './components/SocialLogin';
+import handleAPI from '../../apis/handleAPI';
 
 const {Title, Paragraph, Text} = Typography
 
@@ -12,8 +13,20 @@ const SignUp = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = (values: {name : string ,email : string; password : string}) => {
-    console.log(values)
+  const handleLogin = async (values: {name : string ,email : string; password : string}) => {
+    const api = `auth/register`;
+    
+    setIsLoading(true)
+    try {
+      const res = await handleAPI(api, values, 'post');
+      console.log(res);
+    } catch (error : any) {
+      console.log(error)
+      message.error(error.message)
+
+    }finally{
+      setIsLoading(false)
+    }
   }
   return (
     <>
@@ -33,20 +46,21 @@ const SignUp = () => {
           layout='vertical' 
           form={form} 
           onFinish={handleLogin} 
+          autoComplete='off'
           disabled={isLoading}
           size='large'
         >
           <Form.Item 
             name={'name'} 
-            label='Name'
+            label='Họ và tên'
             rules={[
               {
                 required : true,
-                message : 'Please enter your name ! '
+                message : 'Hãy nhập tên của bạn ! '
               }
             ]}
           >
-            <Input placeholder='Enter your name' allowClear/>
+            <Input placeholder='Nhập tên' allowClear/>
           </Form.Item>
           <Form.Item 
             name={'email'} 
@@ -54,27 +68,59 @@ const SignUp = () => {
             rules={[
               {
                 required : true,
-                message : 'Please enter your email ! '
+                message : 'Hãy nhập email của bạn ! '
               }
             ]}
           >
-            <Input placeholder='Enter your email' allowClear maxLength={100} type='email' />
+            <Input placeholder='Nhập email' allowClear maxLength={100} type='email' />
           </Form.Item>
           <Form.Item 
             name={'password'} 
-            label='Password'
+            label='Mật khẩu'
             rules={[
               {
                 required : true,
-                message : 'Please enter your password ! '
-              }
+                message : 'Hãy nhập mật khẩu ! '
+              },
+              () => ({
+                validator : (_, value) => {
+                  if (value.length < 6) {
+                    return Promise.reject(new Error('Mật khẩu phải chứa ít nhất 6 kí tự'))
+                  }else{
+                    return Promise.resolve();
+                  }
+                }
+              })
             ]}
           >
-            <Input.Password  placeholder='Enter your password' maxLength={100} type='password' />
+            <Input.Password  placeholder='Nhập mật khẩu' maxLength={100} type='password' />
+          </Form.Item>
+          <Form.Item 
+            name={'confirm'} 
+            label='Xác nhận mật khẩu'
+            dependencies={['password']}
+            hasFeedback
+            rules={[
+              {
+                required : true,
+                message : 'Hãy nhập mật khẩu ! '
+              },
+              ({getFieldValue}) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue('password') === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error('Mật khẩu không trùng khớp'))
+                }
+              })
+            ]}
+          >
+            <Input.Password  placeholder='Nhập mật khẩu' maxLength={100} type='password' />
           </Form.Item>
         </Form>
-        <div className='mt-4 mb-4'>
+        <div className='mt-5 mb-4'>
           <Button
+            loading={isLoading}
             onClick={() => form.submit()}
             type='primary' 
             style={{
@@ -82,14 +128,14 @@ const SignUp = () => {
             }} 
             size='large'
           >
-            Getting Start
+            BẮT ĐẦU
           </Button>
         </div>
           <SocialLogin/>
         <div className='mt-4 text-center'>
           <Space>
-            <Text type='secondary'>You have an account ?</Text>
-            <Link to={'/'}>Login</Link>
+            <Text type='secondary'>Bạn đã có tài khoản ?</Text>
+            <Link to={'/'}>Đăng nhập</Link>
           </Space>
         </div>
       </Card>
