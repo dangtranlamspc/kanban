@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import Routers from './routers/Routers';
 import { ConfigProvider, message } from 'antd';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 message.config({
   top : 30,
@@ -18,7 +20,9 @@ function App() {
       token : {},
       components : {}
     }}>
-      <Routers/>
+      <Provider store={store}>
+        <Routers/>
+      </Provider>
     </ConfigProvider>
 
   );

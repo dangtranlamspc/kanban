@@ -12,10 +12,9 @@ axiosClient.interceptors.request.use(async (config : any) => {
     config.headers = {
         Authorization: '',
         Accept : 'application/json',
-        ...config.headers
+        ...config.headers,
     }
-    config.data;
-    return config;
+    return {...config, data : config.data ?? null};
 })
 
 axiosClient.interceptors.response.use(
@@ -23,7 +22,7 @@ axiosClient.interceptors.response.use(
         if (res.data && res.status >= 200 && res.status < 300) {
             return res.data;
         }else{
-            return Promise.reject(res.data)
+            return Promise.reject(res.data);
         }
     }, 
     (error) => {
