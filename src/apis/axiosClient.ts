@@ -14,7 +14,7 @@ axiosClient.interceptors.request.use(async (config : any) => {
         Accept : 'application/json',
         ...config.headers,
     }
-    return {...config, data : config.data ?? null};
+    return config;
 })
 
 axiosClient.interceptors.response.use(

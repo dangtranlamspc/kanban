@@ -1,4 +1,4 @@
-import { Button, Card, Checkbox, Form, Input, Space, Typography } from 'antd'
+import { Button, Card, Checkbox, Form, Input, message, Space, Typography } from 'antd'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import SocialLogin from './components/SocialLogin'
@@ -18,12 +18,10 @@ const Login = () => {
     setIsLoading(true)
     console.log(values)
     try {
-      const res = await handleAPI('auth/register', values, 'post');
-      console.log(res);
-    } catch (error) {
+      const res = await handleAPI('auth/login', values, 'post');
+    } catch (error : any) {
+      message.error(error.message)
       console.log(error)
-    }finally{
-      setIsLoading(false)
     }
   }
   return (
