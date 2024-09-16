@@ -1,5 +1,7 @@
+
 import { createSlice } from "@reduxjs/toolkit";
 import { localDataNames } from "../../constants/appInfors";
+
 
 export interface AuthState {
     token : string,
@@ -23,7 +25,7 @@ const authSlice = createSlice({
     reducers : {
         addAuth : (state, action) => {
             state.data = action.payload
-            syncLocal(action.payload);
+            // syncLocal(action.payload);
         },
         removeAuth : (state, _actione) => {
             state.data = initialState;

@@ -5,6 +5,7 @@ import SocialLogin from './components/SocialLogin'
 import handleAPI from '../../apis/handleAPI'
 import { useDispatch } from 'react-redux'
 import { addAuth } from '../../redux/reducers/authReducer'
+import { localDataNames } from '../../constants/appInfors'
 
 const {Title, Paragraph, Text} = Typography
 
@@ -22,16 +23,23 @@ const Login = () => {
     setIsLoading(true)
     try {
       const res : any = await handleAPI('auth/login', values, 'post');
+
       message.success(res.message)
+
       res.data && dispatch(addAuth(res.data));
+
+      if(isRemember){
+        localStorage.setItem(localDataNames.authData, JSON.stringify(res.data))
+      }
     } catch (error : any) {
       message.error(error.message)
-      console.log(error)
+    }finally{
+      setIsLoading(false)
     }
   }
   return (
     <>
-      <Card style={{width : '50%'}}>
+      <Card  style={{width : '50%'}}>
         <div className='text-center'>
           <img
             className='mb-3'
@@ -85,6 +93,7 @@ const Login = () => {
         </div>
         <div className='mt-4 mb-4'>
           <Button
+            loading={isLoading}
             onClick={() => form.submit()}
             type='primary' 
             style={{

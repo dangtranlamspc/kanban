@@ -1,9 +1,38 @@
 import { Button } from 'antd'
-import React from 'react'
+import {GoogleAuthProvider, signInWithPopup} from 'firebase/auth'
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { auth } from '../../../firebase/firebaseConfig';
+
+const provider = new GoogleAuthProvider();
+provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+provider.setCustomParameters({
+    'login_hint': 'dangtranlamfpt@gmail.com'
+  });
 
 const SocialLogin = () => {
+    const dispatch = useDispatch();
+    const [isLoading, setIsLoading] = useState(false);
+    const handleLoginWithGoogle = async () => {
+        setIsLoading(true);
+        try {
+            const result = await signInWithPopup(auth, provider)
+            if(result) {
+                const user = result.user
+                console.log(user)
+            }else{
+                console.log('Can not login with google')
+            }
+        } catch (error) {
+            console.log(error)
+        }finally{
+            setIsLoading(false);
+        }
+    };
   return (
     <Button 
+        loading={isLoading}
+        onClick={handleLoginWithGoogle}
         style={{
             width : '100%',
         }} 
