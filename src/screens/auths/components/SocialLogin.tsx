@@ -19,7 +19,12 @@ const SocialLogin = () => {
             const result = await signInWithPopup(auth, provider)
             if(result) {
                 const user = result.user
-                console.log(user)
+                if (user) {
+                    const data ={
+                        name : user.displayName,
+                        email : user.email,
+                    };
+                }
             }else{
                 console.log('Can not login with google')
             }
