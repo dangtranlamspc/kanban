@@ -1,8 +1,11 @@
-import { Button } from 'antd'
+import { Button, message } from 'antd'
 import {GoogleAuthProvider, signInWithPopup} from 'firebase/auth'
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { auth } from '../../../firebase/firebaseConfig';
+import handleAPI from '../../../apis/handleAPI';
+import { addAuth } from '../../../redux/reducers/authReducer';
+import { localDataNames } from '../../../constants/appInfors';
 
 const provider = new GoogleAuthProvider();
 provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
@@ -10,9 +13,18 @@ provider.setCustomParameters({
     'login_hint': 'dangtranlamfpt@gmail.com'
   });
 
-const SocialLogin = () => {
+  interface Props 
+  {
+    isRemember ?: boolean;
+  }
+
+const SocialLogin = (props : Props) => {
+    const { isRemember } = props;
+
     const dispatch = useDispatch();
+
     const [isLoading, setIsLoading] = useState(false);
+
     const handleLoginWithGoogle = async () => {
         setIsLoading(true);
         try {
@@ -24,6 +36,21 @@ const SocialLogin = () => {
                         name : user.displayName,
                         email : user.email,
                     };
+                    const api = `/auth/google-login`
+
+                    try {
+                        const res:any = await handleAPI(api, data , 'post')
+                        message.success(res.message);
+                        dispatch(addAuth(res.data))
+                        if(isRemember){
+                            localStorage.setItem(localDataNames.authData, JSON.stringify(res.data))
+                          }
+                    } catch (error : any) {
+                        console.log(error);
+                        message.error(error.message);
+                    }finally{
+                        setIsLoading(false);
+                    }
                 }
             }else{
                 console.log('Can not login with google')

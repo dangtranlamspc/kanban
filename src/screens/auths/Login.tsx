@@ -6,6 +6,7 @@ import handleAPI from '../../apis/handleAPI'
 import { useDispatch } from 'react-redux'
 import { addAuth } from '../../redux/reducers/authReducer'
 import { localDataNames } from '../../constants/appInfors'
+import { auth } from '../../firebase/firebaseConfig'
 
 const {Title, Paragraph, Text} = Typography
 
@@ -85,7 +86,7 @@ const Login = () => {
         </Form>
         <div className="row">
           <div className="col">
-            <Checkbox value={isRemember} onChange={(val) => setIsRemember(val.target.checked)}>Ghi nhớ mật khẩu</Checkbox>
+            {/* <Checkbox value={isRemember} onChange={(val) => setIsRemember(val.target.checked)}>Ghi nhớ mật khẩu</Checkbox> */}
           </div>
           <div className="col text-right">
             <Link to={'/'} >Quên mật khẩu ?</Link>
@@ -104,7 +105,10 @@ const Login = () => {
             ĐĂNG NHẬP
           </Button>
         </div>
-          <SocialLogin/>
+        <SocialLogin isRemember = {isRemember}/>
+        <div className='mt-4 text-center'>
+          <Checkbox value={isRemember} onChange={(val) => setIsRemember(val.target.checked)}>Ghi nhớ tài khoản</Checkbox>
+        </div>
         <div className='mt-4 text-center'>
           <Space>
             <Text type='secondary'>Bạn không có tài khoản ?</Text>
