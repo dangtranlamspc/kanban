@@ -18,6 +18,10 @@ const Routers = () => {
     res && dispatch(addAuth(JSON.parse(res)))
   };
 
+  const handleCheckToken = async () => {
+    
+  };
+
   return isLoading ? <Spin/> : !auth.token ? <AuthRouter/> : <MainRouters/>
 }
 

@@ -1,7 +1,15 @@
 import axios from "axios";
 import queryString from "query-string";
+import { localDataNames } from "../constants/appInfors";
 
 const baseURL = `http://192.168.102.200:3001`;
+
+
+const getAccessToken = () => {
+    const res = localStorage.getItem(localDataNames.authData)
+
+    return res ? JSON.parse(res).token : '';
+}
 
 const axiosClient = axios.create({
     baseURL : baseURL,
@@ -9,12 +17,15 @@ const axiosClient = axios.create({
 });
 
 axiosClient.interceptors.request.use(async (config : any) => {
+
+    const accesstoken = getAccessToken()
+
     config.headers = {
-        Authorization: '',
+        Authorization: `jiadji ${accesstoken}`,
         Accept : 'application/json',
         ...config.headers,
     }
-    return config;
+    return { ...config, data: config.data ?? null };;
 })
 
 axiosClient.interceptors.response.use(
