@@ -38,7 +38,6 @@ const HomeScreen = () => {
   return (
     <div>
         <Button onClick={logout}>Logout</Button>
-        <Button onClick={logout}>Logout</Button>
     </div>
 
   )

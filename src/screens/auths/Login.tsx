@@ -53,9 +53,9 @@ const Login = () => {
           </Paragraph>
         </div>
         <Form 
-          layout='vertical' 
+          layout='vertical'
           form={form} 
-          onFinish={handleLogin} 
+          onFinish={handleLogin}
           disabled={isLoading}
           size='large'
         >
