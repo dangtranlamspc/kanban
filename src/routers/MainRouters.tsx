@@ -22,7 +22,7 @@ const MainRouters = () => {
 				<Affix offsetTop={0}>
 					<HeaderComponent />
 				</Affix>
-				<Content className='pt-3 container-fluid'>
+				<Content className='mt-3 mb-2 container bg-white'>
 					<Routes>
 						<Route path='/' element={<HomeScreen/>}/>
 					<Route>
