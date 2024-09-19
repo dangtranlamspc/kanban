@@ -9,6 +9,7 @@ import { authSelector, removeAuth } from '../redux/reducers/authReducer';
 
 const HeaderComponent = () => {
     const user = useSelector(authSelector);
+
 	const dispatch = useDispatch();
 
 	const navigate = useNavigate();
@@ -21,7 +22,6 @@ const HeaderComponent = () => {
 				signOut(auth);
 				dispatch(removeAuth({}));
 				localStorage.clear();
-
 				navigate('/');
 			},
 		},

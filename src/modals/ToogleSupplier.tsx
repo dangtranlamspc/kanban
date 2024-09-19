@@ -151,7 +151,19 @@ const ToogleSupplier = (props : Props) => {
             name={'price'}
             label='Buying Price' 
           >
-            <Input placeholder='Enter buying price' type='number' allowClear />
+            <Input placeholder='Enter buying price' type='number' allowClear/>
+          </Form.Item>
+          <Form.Item 
+            name={'email'}
+            label='Email' 
+          >
+            <Input placeholder='Enter your email' allowClear type='email'/>
+          </Form.Item>
+          <Form.Item 
+            name={'active'}
+            label='Active' 
+          >
+            <Input type='number' placeholder='Enter your active' allowClear/>
           </Form.Item>
           <Form.Item 
             name={'contact'}

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import {Avatar, Button, message, Modal, Space, Table, Tooltip, Typography} from 'antd'
+import { useEffect, useState } from 'react'
+import {Button, message, Modal, Space, Table, Typography} from 'antd'
 import { ColumnProps } from 'antd/es/table'
 import { Edit2, Filter, Sort, UserRemove } from 'iconsax-react';
 import { colors } from '../constants/colors';
@@ -19,7 +19,17 @@ const Suppliers = () => {
 
   const [supplierSelected, setSupplierSelected] = useState<SupplierModel>();
 
+  const  [pageSize, setPageSize] = useState(10)
+  const  [page, setPage] = useState(1)
+  const [total, setTotal] = useState<number>(10)
+
   const columns : ColumnProps<SupplierModel>[] = [
+    {
+      key : 'index',
+      dataIndex : 'index',
+      title : '#',
+      align : 'center'
+    },
     {
       key : 'name',
       dataIndex : 'name',
@@ -48,8 +58,9 @@ const Suppliers = () => {
     },
     {
       key : 'ontheway',
-      dataIndex : 'ontheway',
-      title : 'On the way'
+      dataIndex : 'active',
+      title : 'On the way',
+      render : (num) => num ?? '-'
     },
     {
       key : 'buttonContainer',
@@ -83,16 +94,28 @@ const Suppliers = () => {
     }
   ];
 
+
   useEffect(() => {
     getSuppliers();
-  },[])
+  },[page, pageSize])
 
   const getSuppliers = async () => {
-    const api = `/supplier`
+    const api = `/supplier?page=${page}&pageSize=${pageSize}`
     setIsLoading(true)
     try {
       const res = await handleAPI(api)
       res.data && setSuppliers(res.data.items)
+
+      const items : SupplierModel[] = [];
+
+      res.data.items.forEach((item : any, index: number) => 
+        items.push({
+          index : (page - 1) * pageSize + (index + 1),
+          ...item,
+        })
+      )
+      setSuppliers(items)
+      setTotal(res.data.total)
     } catch (error : any) {
       message.error(error.message)
     }finally{
@@ -115,6 +138,19 @@ const Suppliers = () => {
   return (
     <div>
       <Table
+        pagination={{
+          showSizeChanger : true,
+          onShowSizeChange(current, size) {
+            setPageSize(size)
+          },
+          total,
+          onChange(page, pageSize) {
+            setPage(page)
+          }
+        }}
+        scroll={{
+          y : 'calc(100vh - 300px'
+        }}
         loading={isLoading}
         dataSource={suppliers} 
         columns={columns} 
