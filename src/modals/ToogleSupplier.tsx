@@ -43,7 +43,7 @@ const ToogleSupplier = (props : Props) => {
 
     const data : any = {};
 
-    const api = `/supplier/${supplier ? 'update' : 'add-new'}`
+    const api = `/supplier/${supplier ? `update?id=${supplier._id}` : 'add-new'}`
 
     for (const i in values){
       data[i] = values[i] ?? ''

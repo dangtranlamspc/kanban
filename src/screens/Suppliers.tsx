@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {Avatar, Button, message, Space, Table, Tooltip, Typography} from 'antd'
+import {Avatar, Button, message, Modal, Space, Table, Tooltip, Typography} from 'antd'
 import { ColumnProps } from 'antd/es/table'
 import { Edit2, Filter, Sort, UserRemove } from 'iconsax-react';
 import { colors } from '../constants/colors';
@@ -10,6 +10,8 @@ import handleAPI from '../apis/handleAPI';
 const {Title, Text} = Typography;
 const Suppliers = () => {
   const [isVisibleModalAddNew, setIsVisibleMoalAddNew] = useState(false)
+
+  const {confirm} = Modal
 
   const [suppliers , setSuppliers] = useState<SupplierModel[]>([]);
 
@@ -55,7 +57,6 @@ const Suppliers = () => {
       dataIndex : '',
       render : (item : SupplierModel) => 
       <Space>
-        <Tooltip title='Edit'>
           <Button 
             onClick={()=>{
               setSupplierSelected(item)
@@ -69,10 +70,13 @@ const Suppliers = () => {
               />
             }
           />
-        </Tooltip>
-        <Tooltip title='Remove'>
-          <Button type='text' icon={<UserRemove size={18} className='text-danger' />}/>
-        </Tooltip>
+          <Button 
+            onClick={()=>confirm({
+              title : 'Confirm',
+              content : 'Are you sure you want delete supllier',
+              onOk : () => removeSupplier(item._id)
+            })}
+            type='text' icon={<UserRemove size={18} className='text-danger' />}/>
       </Space>,
       fixed : 'right',
       align : 'right'
@@ -95,6 +99,18 @@ const Suppliers = () => {
       setIsLoading(false)
     }
   };
+
+  const removeSupplier = async (id : string) => {
+
+    try {
+          //soft delete
+      // await handleAPI(`/supplier/update?id=${id}`, {isDeleted : true}, 'put')
+      await handleAPI(`/supplier/remove?id=${id}`, undefined, 'delete');
+      await getSuppliers()
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div>
