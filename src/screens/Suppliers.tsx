@@ -121,7 +121,13 @@ const Suppliers = () => {
 
       <ToogleSupplier 
         visible={isVisibleModalAddNew}
-        onClose={()=>setIsVisibleMoalAddNew(false)}
+        onClose={()=>{
+          supplierSelected && getSuppliers()
+          setIsVisibleMoalAddNew(false);
+          setSupplierSelected(undefined);
+        }
+
+        }
         onAddNew={(val) => setSuppliers([...suppliers, val])}
         supplier={supplierSelected}
       />

@@ -1,6 +1,6 @@
 import { Avatar, Button, Form, Input, message, Modal, Select, Typography } from 'antd'
 import { User } from 'iconsax-react'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { colors } from '../constants/colors'
 import { uploadFile } from '../utils/uploadFile'
 import { replaceName } from '../utils/replaceName'
@@ -28,7 +28,14 @@ const ToogleSupplier = (props : Props) => {
 
   const [file , setFile] = useState<any>();
 
-  const inpRef = useRef<any>()
+  const inpRef = useRef<any>();
+
+  useEffect(()=>{
+    if (supplier) {
+      form.setFieldsValue(supplier)
+      setIsTalking(supplier.isTalking === 1);
+    }
+  },[supplier])
 
   const addNewSupplier = async (values : any) => {
 
@@ -36,7 +43,7 @@ const ToogleSupplier = (props : Props) => {
 
     const data : any = {};
 
-    const api = `/supplier/add-new`
+    const api = `/supplier/${supplier ? 'update' : 'add-new'}`
 
     for (const i in values){
       data[i] = values[i] ?? ''
@@ -53,9 +60,9 @@ const ToogleSupplier = (props : Props) => {
     data.slug = replaceName(values.name)
 
     try {
-      const res : any = await handleAPI(api, data , 'post')
+      const res : any = await handleAPI(api, data ,supplier ? 'put' : 'post')
       message.success(res.message)
-      onAddNew(res.data)
+      !supplier && onAddNew(res.data)
       handleClose();
     } catch (error) {
       console.log(error)
