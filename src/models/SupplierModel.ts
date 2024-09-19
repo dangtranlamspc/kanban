@@ -7,9 +7,11 @@ export interface SupplierModel {
     contact: string
     isTalking: number
     photoUrl: string
+    email: string;
     createdAt: string
     updatedAt: string
-    isDeleted: boolean
+    // isDeleted: boolean
+    active: string;
     _id: string
   }
   
