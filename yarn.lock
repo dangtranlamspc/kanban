@@ -9828,6 +9828,7 @@ __metadata:
     react: ^18.3.1
     react-dom: ^18.3.1
     react-icons: ^5.3.0
+    react-image-file-resizer: ^0.4.8
     react-redux: ^9.1.2
     react-router-dom: ^6.26.2
     react-scripts: 5.0.1
@@ -12756,6 +12757,13 @@ __metadata:
   peerDependencies:
     react: "*"
   checksum: 3aa5f50e05aafc6d31e0d995fe0d98560069aa88717b24ce8aaa082a7e7b20ca95e1e19d847ed6e52d658a5a30e15826af20d7554bf993a743edd55586db62e3
+  languageName: node
+  linkType: hard
+
+"react-image-file-resizer@npm:^0.4.8":
+  version: 0.4.8
+  resolution: "react-image-file-resizer@npm:0.4.8"
+  checksum: b8f169bc816dd3c10910868e1049ec356e3cd063a87a0eaaf9801c96560fbf21b71019054da91c757ee85ed1ef7b1987821636c81f4f8eae1f8fe3be088ae2ea
   languageName: node
   linkType: hard
 

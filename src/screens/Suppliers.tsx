@@ -4,12 +4,13 @@ import { ColumnProps } from 'antd/es/table'
 import { Filter, Sort } from 'iconsax-react';
 import { colors } from '../constants/colors';
 import { ToogleSupplier } from '../modals';
+import { SupplierModel } from '../models/SupplierModel';
 
 const {Title} = Typography;
 const Suppliers = () => {
   const [isVisibleModalAddNew, setIsVisibleMoalAddNew] = useState(false)
 
-  const columns : ColumnProps<any>[] = [
+  const columns : ColumnProps<SupplierModel>[] = [
 
   ]
   return (
@@ -37,7 +38,7 @@ const Suppliers = () => {
       <ToogleSupplier 
         visible={isVisibleModalAddNew}
         onClose={()=>setIsVisibleMoalAddNew(false)}
-        onAddNew={(val) => console.log(val)}
+        onAddNew={(val) => {console.log(val)}}
       />
     </div>
   )
