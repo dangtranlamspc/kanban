@@ -66,6 +66,7 @@ const ToogleSupplier = (props : Props) => {
 
   const handleClose = async () => {
     form.resetFields()
+    setFile(undefined)
     onClose()
   }
 
@@ -80,8 +81,8 @@ const ToogleSupplier = (props : Props) => {
       okButtonProps={{
         loading : isLoading
       }}
-      title='New Supplier'
-      okText='Add Supplier'
+      title={supplier ? 'Update Supplier' : 'Add Supplier'}
+      okText={supplier ? 'Update Supplier' : 'Add Supplier'}
       cancelText='Discard'
     >
       <label htmlFor='inpFile' className='p-2 mb-3 row'>
