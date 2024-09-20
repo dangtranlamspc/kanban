@@ -6,6 +6,8 @@ import { uploadFile } from '../utils/uploadFile'
 import { replaceName } from '../utils/replaceName'
 import handleAPI from '../apis/handleAPI'
 import { SupplierModel } from '../models/SupplierModel'
+import { FormModel } from '../models/FormModel'
+import FormItem from '../components/FormItem'
 
 interface Props {
     visible : boolean,
@@ -22,13 +24,21 @@ const ToogleSupplier = (props : Props) => {
 
   const [form] = Form.useForm();
 
+  const [formData, setFormData] = useState<FormModel>();
+
   const [isLoading , setIsLoading]  = useState(false);
+
+  const [isGetting, setIsGetting] = useState(false);
 
   const [isTalking, setIsTalking] = useState<boolean>();
 
   const [file , setFile] = useState<any>();
 
   const inpRef = useRef<any>();
+
+  useEffect(()=>{
+    getFormDatas();
+  },[])
 
   useEffect(()=>{
     if (supplier) {
@@ -71,6 +81,21 @@ const ToogleSupplier = (props : Props) => {
     }
   }
 
+  const getFormDatas = async () => {
+    const api = `/supplier/get-form-supplier`;
+    setIsGetting(true);
+    try {
+      const res = await handleAPI(api)
+      res.data && setFormData(res.data)
+    } catch (error) {
+      console.log(error)
+    }finally{
+      setIsGetting(false)
+    }
+
+
+  }
+
   const handleClose = async () => {
     form.resetFields()
     setFile(undefined)
@@ -79,6 +104,7 @@ const ToogleSupplier = (props : Props) => {
 
   return (
     <Modal
+      loading={isGetting}
       closable={!isLoading}
       width={720}
       open={visible}
@@ -116,71 +142,89 @@ const ToogleSupplier = (props : Props) => {
 					</Button>
 				</div>
 			</label>
-        <Form
-          disabled={isLoading}
-          onFinish={addNewSupplier}
-          layout='horizontal'
-          labelCol={{span : 6}}
-          wrapperCol={{span : 16}}
-          size='large'
-          form={form}
-        >
-          <Form.Item 
-            name={'name'}
-            label='Supplier Name'
-            rules={[{
-              required : true,
-              message : 'Please enter supplier name'
-            }]}
+        {/* {
+          formData && 
+            (<Form
+            disabled={isLoading}
+            onFinish={addNewSupplier}
+            layout='horizontal'
+            labelCol={{span : 6}}
+            wrapperCol={{span : 16}}
+            size='large'
+            form={form}
           >
-            <Input placeholder='Entersupplier name' allowClear />
-          </Form.Item>
-          <Form.Item 
-            name={'product'}
-            label='Product' 
-          >
-            <Input placeholder='Enter product' allowClear />
-          </Form.Item>
-          <Form.Item 
-            name={'categories'}
-            label='Category' 
-          >
-            <Select options={[]} placeholder='Select category' />
-          </Form.Item>
-          <Form.Item 
-            name={'price'}
-            label='Buying Price' 
-          >
-            <Input placeholder='Enter buying price' type='number' allowClear/>
-          </Form.Item>
-          <Form.Item 
-            name={'email'}
-            label='Email' 
-          >
-            <Input placeholder='Enter your email' allowClear type='email'/>
-          </Form.Item>
-          <Form.Item 
-            name={'active'}
-            label='Active' 
-          >
-            <Input type='number' placeholder='Enter your active' allowClear/>
-          </Form.Item>
-          <Form.Item 
-            name={'contact'}
-            label='Contact Number' 
-          >
-            <Input placeholder='Enter supplier contact numvber' allowClear />
-          </Form.Item>
-          <Form.Item 
-            name={'type'}
-            label='Type' 
-          >
-            <div className='mb-2'>
-              <Button size='middle' onClick={()=>setIsTalking(false)} type={isTalking === false ? 'primary' : 'default'}>Not taking return</Button>
-            </div>
-            <Button size='middle' onClick={() => setIsTalking(true)} type={isTalking ? 'primary' : 'default'}>Taking return</Button>
-          </Form.Item>
-        </Form>
+            <Form.Item 
+              name={'name'}
+              label='Supplier Name'
+              rules={[{
+                required : true,
+                message : 'Please enter supplier name'
+              }]}
+            >
+              <Input placeholder='Entersupplier name' allowClear />
+            </Form.Item>
+            <Form.Item 
+              name={'product'}
+              label='Product' 
+            >
+              <Input placeholder='Enter product' allowClear />
+            </Form.Item>
+            <Form.Item 
+              name={'categories'}
+              label='Category' 
+            >
+              <Select options={[]} placeholder='Select category' />
+            </Form.Item>
+            <Form.Item 
+              name={'price'}
+              label='Buying Price' 
+            >
+              <Input placeholder='Enter buying price' type='number' allowClear/>
+            </Form.Item>
+            <Form.Item 
+              name={'email'}
+              label='Email' 
+            >
+              <Input placeholder='Enter your email' allowClear type='email'/>
+            </Form.Item>
+            <Form.Item 
+              name={'active'}
+              label='Active' 
+            >
+              <Input type='number' placeholder='Enter your active' allowClear/>
+            </Form.Item>
+            <Form.Item 
+              name={'contact'}
+              label='Contact Number' 
+            >
+              <Input placeholder='Enter supplier contact numvber' allowClear />
+            </Form.Item>
+            <Form.Item 
+              name={'type'}
+              label='Type' 
+            >
+              <div className='mb-2'>
+                <Button size='middle' onClick={()=>setIsTalking(false)} type={isTalking === false ? 'primary' : 'default'}>Not taking return</Button>
+              </div>
+              <Button size='middle' onClick={() => setIsTalking(true)} type={isTalking ? 'primary' : 'default'}>Taking return</Button>
+            </Form.Item>
+          </Form>)
+        } */}
+
+      {formData && (
+				<Form
+					disabled={isLoading}
+					onFinish={addNewSupplier}
+					layout={formData.layout}
+					labelCol={{ span: formData.labelCol }}
+					wrapperCol={{ span: formData.wrapperCol }}
+					size='large'
+					form={form}>
+					{formData.formItems.map((item) => (
+						<FormItem item={item} />
+					))}
+				</Form>
+			)}
         <div className="d-none">
           <input 
             ref={inpRef} 

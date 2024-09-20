@@ -9865,6 +9865,7 @@ __metadata:
     firebase: ^10.13.1
     iconsax-react: ^0.0.8
     query-string: ^9.1.0
+    re-resizable: ^6.9.18
     react: ^18.3.1
     react-dom: ^18.3.1
     react-icons: ^5.3.0
@@ -12724,6 +12725,16 @@ __metadata:
     react: ">=16.9.0"
     react-dom: ">=16.9.0"
   checksum: f68957cc1b78eb9bfcbad87a2d3cce942c301fd0a7dd894548cca81f64433a321b567762d745d199e6c4667f070f2437972d2a24bf6d97d5b05c53b665b706a3
+  languageName: node
+  linkType: hard
+
+"re-resizable@npm:^6.9.18":
+  version: 6.9.18
+  resolution: "re-resizable@npm:6.9.18"
+  peerDependencies:
+    react: ^16.13.1 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.13.1 || ^17.0.0 || ^18.0.0
+  checksum: 46ef26f45d4bf37f4db0d0758fdc0a1b97b29398ac0e8404c556118e15b5df7f47dba2acd60f9e4a9cc66ed536b9566c71d7fc0d2f9bf939609a3016da30704d
   languageName: node
   linkType: hard
 
