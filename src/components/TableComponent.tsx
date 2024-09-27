@@ -5,6 +5,7 @@ import { ColumnProps } from 'antd/es/table';
 import { Resizable } from 're-resizable';
 import { colors } from '../constants/colors';
 import { Sort } from 'iconsax-react';
+import { ModalExportData } from '../modals';
 
 interface Props {
 	forms: FormModel;
@@ -119,61 +120,61 @@ const TableComponent = (props: Props) => {
 	};
   return (
     <>
-    <Table
-        pagination={{
-            showSizeChanger: true,
-            onShowSizeChange: (current, size) => {
-                setPageInfo({ ...pageInfo, pageSize: size });
-            },
-            total,
-            onChange(page, pageSize) {
-                setPageInfo({
-                    ...pageInfo,
-                    page,
-                });
-            },
-            showQuickJumper: true,
-        }}
-        scroll={{
-            y: scrollHeight ? scrollHeight : 'calc(100vh - 300px)',
-        }}
-        loading={loading}
-        dataSource={records}
-        columns={columns}
-        bordered
-        title={() => (
-            <div className='row'>
-                <div className='col'>
-                    <Title level={5}>{forms.title}</Title>
-                </div>
-                <div className='col text-right'>
-                    <Space>
-                        <Button type='primary' onClick={onAddNew}>
-                            Add Supplier
-                        </Button>
-                        <Button icon={<Sort size={20} color={colors.gray600} />}>
-                            Filters
-                        </Button>
-                        <Button onClick={() => setIsVisibleModalExport(true)}>
-                            Export Excel
-                        </Button>
-                    </Space>
-                </div>
-            </div>
-        )}
-        components={{
-            header: {
-                cell: RenderTitle,
-            },
-        }}
-    />
-    {/* <ModalExportData
-        visible={isVisibleModalExport}
-        onClose={() => setIsVisibleModalExport(false)}
-        api={api}
-        name={api}
-    /> */}
-</>
+		<Table
+			pagination={{
+				showSizeChanger: true,
+				onShowSizeChange: (current, size) => {
+					setPageInfo({ ...pageInfo, pageSize: size });
+				},
+				total,
+				onChange(page, pageSize) {
+					setPageInfo({
+						...pageInfo,
+						page,
+					});
+				},
+				showQuickJumper: true,
+			}}
+			scroll={{
+				y: scrollHeight ? scrollHeight : 'calc(100vh - 300px)',
+			}}
+			loading={loading}
+			dataSource={records}
+			columns={columns}
+			bordered
+			title={() => (
+				<div className='row'>
+					<div className='col'>
+						<Title level={5}>{forms.title}</Title>
+					</div>
+					<div className='col text-right'>
+						<Space>
+							<Button type='primary' onClick={onAddNew}>
+								Add Supplier
+							</Button>
+							<Button icon={<Sort size={20} color={colors.gray600} />}>
+								Filters
+							</Button>
+							<Button onClick={() => setIsVisibleModalExport(true)}>
+								Export Excel
+							</Button>
+						</Space>
+					</div>
+				</div>
+			)}
+			components={{
+				header: {
+					cell: RenderTitle,
+				},
+			}}
+		/>
+		<ModalExportData
+			visible={isVisibleModalExport}
+			onClose={() => setIsVisibleModalExport(false)}
+			api={api}
+			name={api}
+		/>
+	</>
   )
 }
 
