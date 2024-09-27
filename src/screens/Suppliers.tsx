@@ -12,15 +12,10 @@ import TableComponent from '../components/TableComponent';
 const {Title, Text} = Typography;
 const Suppliers = () => {
   const [isVisibleModalAddNew, setIsVisibleMoalAddNew] = useState(false)
-
   const {confirm} = Modal
-
   const [suppliers , setSuppliers] = useState<SupplierModel[]>([]);
-
   const [isLoading, setIsLoading]  = useState(false);
-
   const [supplierSelected, setSupplierSelected] = useState<SupplierModel>();
-
   const  [pageSize, setPageSize] = useState(10)
   const  [page, setPage] = useState(1)
   const [total, setTotal] = useState<number>(10)
@@ -98,7 +93,6 @@ const Suppliers = () => {
     }
   ];
 
-
   useEffect(() => {
     getSuppliers();
   },[page, pageSize])
@@ -158,61 +152,13 @@ const Suppliers = () => {
       // await handleAPI(`/supplier/update?id=${id}`, {isDeleted : true}, 'put')
       await handleAPI(`/supplier/remove?id=${id}`, undefined, 'delete');
       await getSuppliers()
+      message.success('Remove suplier succesfully')
     } catch (error) {
       console.log(error)
     }
   }
 
   return forms ? (
-    // <div>
-    //   <Table
-    //     pagination={{
-    //       showSizeChanger : true,
-    //       onShowSizeChange(current, size) {
-    //         setPageSize(size)
-    //       },
-    //       total,
-    //       onChange(page, pageSize) {
-    //         setPage(page)
-    //       }
-    //     }}
-    //     scroll={{
-    //       y : 'calc(100vh - 300px'
-    //     }}
-    //     loading={isLoading}
-    //     dataSource={suppliers} 
-    //     columns={columns} 
-    //     title={() => (
-    //       <div className='row'>
-    //         <div className='col'>
-    //           <Title level={5}>Suppliers</Title>
-    //         </div>
-    //         <div className="col text-right">
-    //           <Space>
-    //             <Button type='primary' onClick={ () => setIsVisibleMoalAddNew(true)}>Add Product</Button>
-    //             <Button icon={<Sort size={20} color={colors.gray600} />}>Filters</Button>
-    //             <Button>Download All</Button>
-    //           </Space>
-    //         </div>
-    //       </div>
-    //       ) 
-    //     } 
-    //   />
-
-    //   <ToogleSupplier 
-    //     visible={isVisibleModalAddNew}
-    //     onClose={()=>{
-    //       supplierSelected && getSuppliers()
-    //       setIsVisibleMoalAddNew(false);
-    //       setSupplierSelected(undefined);
-    //     }
-
-    //     }
-    //     onAddNew={(val) => setSuppliers([...suppliers, val])}
-    //     supplier={supplierSelected}
-    //   />
-    // </div>
-
     <div>
 			<TableComponent
 				api='supplier'
@@ -230,6 +176,7 @@ const Suppliers = () => {
 				extraColumn={(item) => (
 					<Space>
 						<Button
+            // onClick={()=>console.log(item)}
 							type='text'
 							onClick={() => {
 								setSupplierSelected(item);
