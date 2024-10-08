@@ -64,7 +64,7 @@ const HomeScreen = () => {
 			<div className='row'>
 				<div className='col-md-8'>
 					<StatisticComponent datas={salesData} title='Sales Overview' />
-          <StatisticComponent datas={salesData} title='Purchase Overview' />
+          			<StatisticComponent datas={salesData} title='Purchase Overview' />
 				</div>
 				<div className='col-md-4'>
 					<StatisticComponent
